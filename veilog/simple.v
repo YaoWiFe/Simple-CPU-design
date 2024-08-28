@@ -1,0 +1,36 @@
+module simple(m,s,a,b,cf,zf,t);
+	input [7:0] a;
+	input [7:0] b;
+	input [3:0] s;
+	input m;						
+	output reg cf,zf;
+	output reg [7:0] t;						
+	always@(m or s or a or b)
+	begin
+		t=8'b0;							
+		cf=1'b0;
+		zf=1'b0;
+		if(m==1)
+		begin
+			if(s==4'b1001) 
+			begin
+				{cf,t}=a+b;
+				if(t==0) zf=1'b1;
+				else zf=1'b0;
+			end
+			else if(s==4'b0110) 
+			begin
+				{cf,t}=b-a;
+				if(t==0) zf=1'b1;
+			    else zf=1'b0;
+			end
+			else if(s==4'b1011) t=a&b;
+			else if(s==4'b0101) t=~b;
+		end
+		else 
+		begin
+	        if(s==4'b1010)t=b;
+	        if(s==4'b1100||s==4'b0100)t=a;
+	    end
+	end
+endmodule
